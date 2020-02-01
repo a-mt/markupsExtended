@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import re
 import mistletoe
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
@@ -11,9 +12,9 @@ from pygments.formatters.html import HtmlFormatter
 
 class GithubMarkdownMarkup(AbstractMarkup):
 
-    name                 = 'GithubMarkdown'
+    name                 = 'Markdown'
     file_extensions      = ('.md', '.mkd', '.mkdn', '.mdwn', '.mdown', '.markdown')
-    default_extension    = '.mkd'
+    default_extension    = '.md'
     requested_extensions = []
 
     def __init__(self, filename):
@@ -21,10 +22,14 @@ class GithubMarkdownMarkup(AbstractMarkup):
 
     # Convert a Markdown text to HTML using mitletoe (GFM parser)
     def convert(self, text):
-        title = ''
+
+        def reanchor(match):
+            return "[" + match.group(1) + "](" + match.group(2).replace(" ", "%20") + ")"
+
+        text  = re.sub(r'\[([^]]*)\]\(([^)]+)\)', reanchor, text)
         body  = mistletoe.markdown(text, renderer=PygmentsRenderer) + '\n'
 
-        return ConvertedMarkup(body, title)
+        return ConvertedMarkup(body)
 
 # Highlight pre blocks using Pygments
 class PygmentsRenderer(mistletoe.HTMLRenderer):
@@ -34,7 +39,6 @@ class PygmentsRenderer(mistletoe.HTMLRenderer):
     def __init__(self, *extras, style='default'):
         super().__init__(*extras)
         self.formatter.style = get_style(style)
-
 
     def render_block_code(self, token):
         code = token.children[0].content
