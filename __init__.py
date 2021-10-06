@@ -1,3 +1,3 @@
-from markupsExtended.githubMarkdown import GithubMarkdownMarkup
+from .githubMarkdown import GithubMarkdownMarkup
 
 name = "markupsExtended"

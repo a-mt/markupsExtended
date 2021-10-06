@@ -12,7 +12,7 @@ from pygments.formatters.html import HtmlFormatter
 
 class GithubMarkdownMarkup(AbstractMarkup):
 
-    name                 = 'Markdown'
+    name                 = 'GithubMarkdown'
     file_extensions      = ('.md', '.mkd', '.mkdn', '.mdwn', '.mdown', '.markdown')
     default_extension    = '.md'
     requested_extensions = []

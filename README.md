@@ -22,7 +22,8 @@ Currently, there is one parser:
 
 3. Put the folder in the location you chose
 
-        sudo mv markupsExtended /usr/local/lib/python3.6/dist-packages/
+        sudo mv markupsExtended ~/.local/lib/python3.6/site-packages/
+        cd !$/markupsExtended
 
 4. Install the dependencies
 
